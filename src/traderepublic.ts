@@ -387,7 +387,7 @@ export class TraderepublicWebsocket {
       data: {
         q,
         page: 1,
-        pageSize: 3,
+        pageSize: 1,
         filter: [],
       },
     }).toPromise().then(data => data.results)

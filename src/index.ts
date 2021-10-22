@@ -13,8 +13,7 @@ import { TraderepublicWebsocket } from './traderepublic'
 
 const route = pathmatch()
 
-const DEVELOPMENT = process.env.NODE_ENV !== 'production'
-const LOGGING = DEVELOPMENT
+const PRODUCTION = process.env.NODE_ENV !== 'production'
 
 const HTTP_PROXY = process.env.HTTP_PROXY
 const HTTP_PROXY_AGENT = HTTP_PROXY ? new ProxyAgent(HTTP_PROXY) : undefined
@@ -22,7 +21,7 @@ const HTTP_PROXY_AGENT = HTTP_PROXY ? new ProxyAgent(HTTP_PROXY) : undefined
 const createKoaApp = (middlewares: Koa.Middleware[]) => {
   const app = new Koa()
 
-  if (LOGGING) {
+  if (!PRODUCTION) {
     app.use(logger())
   }
 
@@ -32,7 +31,7 @@ const createKoaApp = (middlewares: Koa.Middleware[]) => {
       message: err.message,
       type: err.type,
       status: err.status,
-      stack: DEVELOPMENT ? err.stack : undefined,
+      stack: PRODUCTION ? undefined : err.stack,
     }),
   }))
 
