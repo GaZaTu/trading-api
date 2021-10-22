@@ -13,7 +13,7 @@ import { TraderepublicWebsocket } from './traderepublic'
 
 const route = pathmatch()
 
-const PRODUCTION = process.env.NODE_ENV !== 'production'
+const PRODUCTION = process.env.NODE_ENV === 'production'
 
 const HTTP_PROXY = process.env.HTTP_PROXY
 const HTTP_PROXY_AGENT = HTTP_PROXY ? new ProxyAgent(HTTP_PROXY) : undefined
