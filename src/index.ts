@@ -117,6 +117,17 @@ const ROUTES = [
       ctx.throw(400)
     }
 
+    if (q.length === 12) {
+      const instrument = await getInstrumentByISIN(q)
+
+      if (instrument) {
+        ctx.response.type = 'application/json'
+        ctx.response.body = [instrument]
+
+        return
+      }
+    }
+
     const results = await SOCKET.search(q)
     const instruments = await Promise.all(
       results.map(({ isin }) => getInstrumentByISIN(isin))
