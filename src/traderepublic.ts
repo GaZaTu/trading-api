@@ -382,15 +382,41 @@ export class TraderepublicWebsocket {
   }
 
   search(q: string) {
-    return this._sub({
+    const sub: TraderepublicNeonSearchSub = {
       type: 'neonSearch',
       data: {
         q,
         page: 1,
         pageSize: 1,
-        filter: [],
+        filter: [
+          {
+            key: 'type',
+            value: 'stock',
+          },
+          {
+            key: 'jurisdiction',
+            value: this._jurisdiction,
+          },
+        ],
       },
-    }).toPromise().then(data => data.results)
+    }
+
+    const prefix = q?.trim().toLowerCase().slice(0, 2)
+    if (prefix?.endsWith('?')) {
+      sub.data.q = q.slice(2).trim()
+
+      switch (prefix) {
+        case 'f?':
+          sub.data.filter[0].value = 'fund'
+          break
+
+        case 'c?':
+          sub.data.filter[0].value = 'crypto'
+          break
+      }
+    }
+
+    return this._sub(sub).toPromise().then(data => data.results)
   }
 
   async connect() {
