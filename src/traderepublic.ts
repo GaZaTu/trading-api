@@ -399,7 +399,7 @@ export class TraderepublicWebsocket {
       if (!this.active) {
         this.close()
       }
-    }, 5000)
+    }, 60000)
 
     if (this._connected) {
       return
