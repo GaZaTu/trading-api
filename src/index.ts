@@ -106,6 +106,7 @@ const getInstrumentByISIN = async (isin: string) => {
   return {
     shortName: instrument.shortName,
     bidPrice: ticker.bid.price,
+    dailyChangePercentage: ((ticker.bid.price - ticker.pre.price) * 100) / ticker.pre.price,
   }
 }
 
